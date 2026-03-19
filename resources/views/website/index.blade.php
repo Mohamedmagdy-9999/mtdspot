@@ -16,10 +16,10 @@
                 </div>
                 <button class="slider__nav slider__nav--prev" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
                 <button class="slider__nav slider__nav--next" aria-label="Next slide"><i class="fas fa-chevron-right"></i></button>
-                <div class="slider__indicators">
+                <!-- <div class="slider__indicators">
                     <button class="slider__indicator slider__indicator--active" aria-label="Slide 1"></button>
                     <button class="slider__indicator" aria-label="Slide 2"></button>
-                </div>
+                </div> -->
             </section>
 
             <!-- Category Section -->
