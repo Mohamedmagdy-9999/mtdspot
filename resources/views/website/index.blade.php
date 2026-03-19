@@ -1,39 +1,6 @@
 @extends('website.layout')
 @section('content')
     <main>
-        <!-- Custom Hero Section from user image -->
-        <section style="background-color: var(--bg-primary); color: var(--text-primary); padding: 4rem 2rem; position: relative; overflow: hidden; min-height: 80vh; display: flex; align-items: center;">
-            <div class="container" style="position: relative; z-index: 2;">
-                <div style="max-width: 600px;">
-                    <h1 style="font-size: 4rem; font-weight: 600; line-height: 1.1; margin-bottom: 1.5rem; color: #ffffff;">
-                        Interior Design You<br>Don't Have to<br>Imagine
-                    </h1>
-                    <p style="font-size: 1.1rem; line-height: 1.6; color: var(--text-secondary); margin-bottom: 2.5rem; max-width: 450px;">
-                        Bring your dream home to life with one-on-one design help & hand-picked products tailored to your style, space, and budget.
-                    </p>
-                    <a href="#" class="btn" style="background-color: var(--primary-color); color: #000; padding: 1rem 2.5rem; font-weight: 600; border-radius: 8px; font-size: 1.1rem; display: inline-block; text-decoration: none;">
-                        Buy Now
-                    </a>
-                </div>
-            </div>
-            
-            <!-- Decorative Elements -->
-            <div style="position: absolute; right: 0; top: 0; bottom: 0; width: 50%; pointer-events: none; z-index: 1;">
-                <!-- Abstract ring / circle -->
-                <div style="position: absolute; top: -10%; right: 10%; width: 80vh; height: 80vh; border: 2px solid rgba(251, 191, 36, 0.4); border-radius: 50%;"></div>
-                
-                <!-- 3D Box / Placeholder -->
-                <div style="position: absolute; top: 35%; right: 25%; width: 220px; height: 220px; background: linear-gradient(135deg, #b4855d, #5a3c26); box-shadow: -15px 15px 25px rgba(0,0,0,0.5); transform: rotateX(20deg) rotateY(-30deg) rotateZ(10deg);"></div>
-                
-                <!-- Dark cylinder behind box -->
-                <div style="position: absolute; top: 40%; right: 15%; width: 60px; height: 160px; background: #0b1120; border-radius: 30px; transform: rotate(-15deg); box-shadow: -5px 5px 15px rgba(0,0,0,0.6); z-index: -1;"></div>
-
-                <!-- Yellow glowing spheres -->
-                <div style="position: absolute; top: 25%; right: 15%; width: 45px; height: 45px; background-color: #fef08a; border-radius: 50%; box-shadow: 0 0 20px #fef08a;"></div>
-                <div style="position: absolute; bottom: 20%; left: 15%; width: 55px; height: 55px; background-color: #fef08a; border-radius: 50%; box-shadow: 0 0 25px #fef08a;"></div>
-            </div>
-        </section>
-
         <!-- Hero Slider (now secondary slider) -->
         <section class="slider" style="margin-bottom: 0;">
             <div class="slider__container">
@@ -67,15 +34,21 @@
         <div class="container" style="padding-top: 4rem;">
             <!-- Category Section -->
             <section class="section">
-                <h2 class="section__title animate-on-scroll">Choose Your Category</h2>
+                <h2 class="section__title animate-on-scroll" style="text-align: center;">Choose Your Category</h2>
                 <div class="grid grid--5">
                     @foreach($cats as $cat)
-                        <a href="{{route('single_category',$cat->id)}}">
-                        <div class="category-card animate-on-scroll">
-                            <div class="category-card__icon"></div>
-                            <h3 class="category-card__title">{{$cat->name_en}}</h3>
-                            {{-- <div class="category-card__count">• 25 Items Chair</div> --}}
-                        
+                        <a href="{{route('single_category',$cat->id)}}" style="text-decoration: none;">
+                        <div class="category-card animate-on-scroll" style="transition: transform 0.3s ease; text-align: center;">
+                            <div class="category-card__image" style="width: 120px; height: 120px; margin: 0 auto 1.5rem; border-radius: 50%; overflow: hidden; background: #f0f0f0; box-shadow: 0 4px 10px rgba(0,0,0,0.1);">
+                                @if($cat->image_url)
+                                    <img src="{{ $cat->image_url }}" alt="{{$cat->name_en}}" style="width: 100%; height: 100%; object-fit: cover;">
+                                @else
+                                    <div style="height: 100%; display: flex; align-items: center; justify-content: center;">
+                                        <i class="fas fa-couch" style="font-size: 2.5rem; color: #ccc;"></i>
+                                    </div>
+                                @endif
+                            </div>
+                            <h3 class="category-card__title" style="color: var(--text-primary); font-size: 1.1rem; font-weight: bold;">{{$cat->name_en}}</h3>
                         </div>
                         </a>
                     @endforeach
@@ -85,21 +58,47 @@
 
             <!-- Best Selling Products Section -->
             <section class="section" style="margin-top: 4rem;">
-                <h2 class="section__title animate-on-scroll">Best Selling Products</h2>
+                <div class="section__header" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2.5rem;">
+                    <h2 class="section__title animate-on-scroll" style="margin-bottom: 0;">Best Selling Products</h2>
+                    <a href="#" style="color: var(--primary-color); font-weight: bold; text-decoration: none; font-size: 1rem; display: flex; align-items: center;">
+                        See More <i class="fas fa-arrow-right" style="margin-left: 8px;"></i>
+                    </a>
+                </div>
                 <div class="grid grid--4" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;">
                     @if(isset($best_products))
                         @forelse($best_products as $product)
-                            <div class="product-card" style="background: #fff; border-radius: 10px; box-shadow: 0 5px 15px rgba(0,0,0,.1); overflow: hidden; display: flex; flex-direction: column;">
-                                <div class="product-card__image">
-                                    <img src="{{ $product->clean_image_link_1 }}" alt="{{ $product->name_en }}" style="width: 100%; height: 220px; object-fit: cover;">
-                                </div>
-                                <div class="product-card__content" style="padding: 15px; text-align: center;">
-                                    <h3 class="product-card__title" style="color: #111; font-size: 16px; margin-bottom: 8px;">{{ $product->name_en }}</h3>
-                                    <p class="product-card__price" style="color: #555; margin-bottom: 10px;">{{ number_format($product->price, 2) }} EGP</p>
-                                    <a href="{{route('single_product',$product->id)}}" class="btn btn--primary btn--sm" style="display: inline-block; padding: 8px 12px; background: var(--primary-color); color: #fff; text-decoration: none; border-radius: 5px; font-size: 14px; font-weight: bold;">
-                                        View Details
-                                    </a>
-                                </div>
+                            <div class="product-card" style="background: #fff; border: 1px solid #f0f0f0; border-radius: 8px; overflow: hidden; position: relative; transition: box-shadow 0.3s ease; display: flex; flex-direction: column; text-align: center;">
+                                <a href="{{route('single_product', $product->id)}}" style="display: block; text-decoration: none; color: inherit; height: 100%;">
+                                    <!-- Discount Badge -->
+                                    <div style="position: absolute; top: 0; left: 0; background: #ff4d6d; color: white; font-size: 0.75rem; font-weight: bold; padding: 4px 12px; border-bottom-right-radius: 8px;">
+                                        10% OFF
+                                    </div>
+                                    
+                                    <!-- Product Image -->
+                                    <div style="padding: 1.5rem; border-bottom: 1px solid #f8f9fa;">
+                                        <img src="{{ $product->clean_image_link_1 }}" alt="{{ $product->name_en }}" style="width: 100%; height: 180px; object-fit: contain;">
+                                    </div>
+                                    
+                                    <!-- Product Details -->
+                                    <div style="padding: 1rem;">
+                                        <h3 style="color: #333; font-size: 15px; margin-bottom: 6px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $product->name_en }}</h3>
+                                        
+                                        <!-- Stars -->
+                                        <div style="color: #fbb308; font-size: 13px; margin-bottom: 8px;">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="far fa-star"></i>
+                                        </div>
+                                        
+                                        <!-- Price and Cart Icon -->
+                                        <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+                                            <span style="font-weight: 700; font-size: 16px; color: #2d3748;">{{ number_format($product->price, 2) }} EGP</span>
+                                            <i class="fas fa-shopping-cart" style="color: #cbd5e1; font-size: 16px;"></i>
+                                        </div>
+                                    </div>
+                                </a>
                             </div>
                         @empty
                             <p style="color: var(--text-secondary);">No products available.</p>

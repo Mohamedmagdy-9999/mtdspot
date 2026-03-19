@@ -85,48 +85,88 @@
 /* === Product Card === */
 .product-card {
     background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,.1);
+    border: 1px solid #f0f0f0;
+    border-radius: 8px;
     overflow: hidden;
+    position: relative;
+    transition: box-shadow 0.3s ease, transform 0.3s ease;
     display: flex;
     flex-direction: column;
+    text-align: center;
+}
+
+.product-card:hover {
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    transform: translateY(-5px);
+}
+
+.product-card > a {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    height: 100%;
+}
+
+.product-card__badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #ff4d6d;
+    color: white;
+    font-size: 0.75rem;
+    font-weight: bold;
+    padding: 4px 12px;
+    border-bottom-right-radius: 8px;
+    z-index: 2;
+}
+
+.product-card__image {
+    padding: 1.5rem;
+    border-bottom: 1px solid #f8f9fa;
 }
 
 .product-card__image img {
     width: 100%;
-    height: 220px;
-    object-fit: cover;
+    height: 180px;
+    object-fit: contain;
 }
 
 .product-card__content {
-    padding: 15px;
-    text-align: center;
+    padding: 1rem;
 }
 
 .product-card__title {
-    color: #111;
-    font-size: 16px;
+    color: #333;
+    font-size: 15px;
+    margin-bottom: 6px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.product-card__stars {
+    color: #fbb308;
+    font-size: 13px;
     margin-bottom: 8px;
-    line-height: 1.4;
+}
+
+.product-card__footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
 }
 
 .product-card__price {
-    color: #555;
-    margin-bottom: 10px;
+    font-weight: 700;
+    font-size: 16px;
+    color: #2d3748;
 }
 
-.product-card a.btn--primary {
-    display: inline-block;
-    padding: 8px 12px;
-    background: #007bff;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-.product-card a.btn--primary:hover {
-    background: #0056b3;
+.product-card__cart {
+    color: #cbd5e1;
+    font-size: 16px;
 }
 
 /* === Page Header === */
@@ -239,18 +279,30 @@
                         data-rating="{{ $product->average_rating }}"
                         data-category="{{ $category->name_en }}">
                         
-                        <div class="product-card__image">
-                            <img src="{{ $product->clean_image_link_1 }}" alt="{{ $product->name_en }}">
-                        </div>
+                        <a href="{{route('single_product', $product->id)}}">
+                            <div class="product-card__badge">10% OFF</div>
+                            
+                            <div class="product-card__image">
+                                <img src="{{ $product->clean_image_link_1 }}" alt="{{ $product->name_en }}">
+                            </div>
 
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">{{ $product->name_en }}</h3>
-                            <p class="product-card__price">{{ number_format($product->price, 2) }} EGP</p>
-                            <a href="{{route('single_product',$product->id)}}" class="btn btn--primary btn--sm">
-                                View Details
-                            </a>
-                        </div>
-
+                            <div class="product-card__content">
+                                <h3 class="product-card__title">{{ $product->name_en }}</h3>
+                                
+                                <div class="product-card__stars">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                
+                                <div class="product-card__footer">
+                                    <span class="product-card__price">{{ number_format($product->price, 2) }} EGP</span>
+                                    <i class="fas fa-shopping-cart product-card__cart"></i>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                     @empty
                     <div class="empty-state">
