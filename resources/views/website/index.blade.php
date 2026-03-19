@@ -69,11 +69,6 @@
                         @forelse($best_products as $product)
                             <div class="product-card" style="background: #fff; border: 1px solid #f0f0f0; border-radius: 8px; overflow: hidden; position: relative; transition: box-shadow 0.3s ease; display: flex; flex-direction: column; text-align: center;">
                                 <a href="{{route('single_product', $product->id)}}" style="display: block; text-decoration: none; color: inherit; height: 100%;">
-                                    <!-- Discount Badge -->
-                                    <div style="position: absolute; top: 0; left: 0; background: #ff4d6d; color: white; font-size: 0.75rem; font-weight: bold; padding: 4px 12px; border-bottom-right-radius: 8px;">
-                                        10% OFF
-                                    </div>
-                                    
                                     <!-- Product Image -->
                                     <div style="padding: 1.5rem; border-bottom: 1px solid #f8f9fa;">
                                         <img src="{{ $product->clean_image_link_1 }}" alt="{{ $product->name_en }}" style="width: 100%; height: 180px; object-fit: contain;">
@@ -95,7 +90,7 @@
                                         <!-- Price and Cart Icon -->
                                         <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
                                             <span style="font-weight: 700; font-size: 16px; color: #2d3748;">{{ number_format($product->price, 2) }} EGP</span>
-                                            <i class="fas fa-shopping-cart" style="color: #cbd5e1; font-size: 16px;"></i>
+                                            <i class="fas fa-shopping-cart" style="color: var(--primary-color); font-size: 18px; cursor: pointer; padding: 5px;" onclick="event.preventDefault(); addToCartQuick({{ $product->id }});"></i>
                                         </div>
                                     </div>
                                 </a>
@@ -149,4 +144,24 @@
         </div>
     </main>
 @endsection
-    
+@push('scripts')
+<script>
+function addToCartQuick(productId) {
+    fetch("{{ route('addtocart') }}",{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body:JSON.stringify({product_id: productId, quantity: 1})
+    }).then(res=>res.json()).then(data=>{
+        if(data.status===200) {
+            alert('Item added to cart!');
+            // Optional: update cart badge here
+        } else {
+            alert('حدث خطأ');
+        }
+    }).catch(err => console.error(err));
+}
+</script>
+@endpush
