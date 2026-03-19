@@ -12,6 +12,7 @@
                             <img src="{{$slider->image_url}}" alt="Modern Furniture" class="slider__image">
                         </div>
                     </div>
+                    
                     @endforeach
                 </div>
                 <button class="slider__nav slider__nav--prev" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
