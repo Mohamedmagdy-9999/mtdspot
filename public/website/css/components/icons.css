@@ -1,0 +1,95 @@
+/* ============================================
+   Icon Styles
+   ============================================ */
+
+.icon {
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+.icon--small {
+    font-size: 0.875rem;
+}
+
+.icon--medium {
+    font-size: 1rem;
+}
+
+.icon--large {
+    font-size: 1.5rem;
+}
+
+.icon--xlarge {
+    font-size: 2rem;
+}
+
+.icon--xxlarge {
+    font-size: 3rem;
+}
+
+/* Icon Colors */
+.icon--primary {
+    color: var(--primary-color);
+}
+
+.icon--secondary {
+    color: var(--secondary-color);
+}
+
+.icon--white {
+    color: white;
+}
+
+.icon--muted {
+    color: var(--text-secondary);
+}
+
+/* Icon Animations */
+.icon--spin {
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.icon--pulse {
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.5;
+    }
+}
+
+/* Social Media Icons */
+.social-icon {
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background-color: var(--bg-secondary);
+    color: var(--text-primary);
+    transition: var(--transition);
+    font-size: 1.125rem;
+}
+
+.social-icon:hover {
+    background-color: var(--primary-color);
+    color: white;
+    transform: scale(1.1);
+}
