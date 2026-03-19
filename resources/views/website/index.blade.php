@@ -19,17 +19,17 @@
                             </p>
                             {{-- <a href="products.html" class="btn btn--primary btn--lg">Shop Now <i class="fas fa-arrow-right"></i></a> --}}
                         </div>
-                    </div> -->
+                    </div>
+                    
+                    @endforeach
                 </div>
-                @endforeach
-            </div>
-            <button class="slider__nav slider__nav--prev" aria-label="Previous slide" style="background: rgba(255,255,255,0.8); color: #333;"><i class="fas fa-chevron-left"></i></button>
-            <button class="slider__nav slider__nav--next" aria-label="Next slide" style="background: rgba(255,255,255,0.8); color: #333;"><i class="fas fa-chevron-right"></i></button>
-            <!-- <div class="slider__indicators">
-                <button class="slider__indicator slider__indicator--active" aria-label="Slide 1"></button>
-                <button class="slider__indicator" aria-label="Slide 2"></button>
-            </div> -->
-        </section>
+                <button class="slider__nav slider__nav--prev" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
+                <button class="slider__nav slider__nav--next" aria-label="Next slide"><i class="fas fa-chevron-right"></i></button>
+                <div class="slider__indicators">
+                    <button class="slider__indicator slider__indicator--active" aria-label="Slide 1"></button>
+                    <button class="slider__indicator" aria-label="Slide 2"></button>
+                </div>
+            </section>
 
         <div class="container" style="padding-top: 4rem;">
             <!-- Category Section -->
