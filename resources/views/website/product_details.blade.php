@@ -37,19 +37,6 @@
     height: 100%;
 }
 
-.product-card__badge {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: #ff4d6d;
-    color: white;
-    font-size: 0.75rem;
-    font-weight: bold;
-    padding: 4px 12px;
-    border-bottom-right-radius: 8px;
-    z-index: 2;
-}
-
 .product-card__image {
     padding: 1.5rem;
     border-bottom: 1px solid #f8f9fa;
@@ -206,7 +193,6 @@
                 @foreach($similarProducts as $sp)
                     <div class="product-card">
                         <a href="{{route('single_product', $sp->id)}}">
-                            <div class="product-card__badge">10% OFF</div>
                             
                             <div class="product-card__image">
                                 <img src="{{ $sp->clean_image_link_1 }}" alt="{{ $sp->name_en }}">
@@ -225,7 +211,7 @@
                                 
                                 <div class="product-card__footer">
                                     <span class="product-card__price">{{ number_format($sp->price, 2) }} EGP</span>
-                                    <i class="fas fa-shopping-cart product-card__cart"></i>
+                                    <i class="fas fa-shopping-cart product-card__cart" style="color: var(--primary-color); cursor: pointer; padding: 5px;" onclick="event.preventDefault(); addToCartQuick({{ $sp->id }});"></i>
                                 </div>
                             </div>
                         </a>
@@ -263,13 +249,25 @@ function increaseQuantity(){
 }
 
 function addToCart(productId){
-    const quantity=parseInt(document.getElementById('quantity-input').value)||1;
+    const input = document.getElementById('quantity-input');
+    const quantity = input ? (parseInt(input.value) || 1) : 1;
     fetch("{{ route('addtocart') }}",{
         method:'POST',
         headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},
         body:JSON.stringify({product_id:productId, quantity:quantity})
     }).then(res=>res.json()).then(data=>{
         if(data.status===200) alert(data.message);
+        else alert('حدث خطأ');
+    });
+}
+
+function addToCartQuick(productId){
+    fetch("{{ route('addtocart') }}",{
+        method:'POST',
+        headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},
+        body:JSON.stringify({product_id:productId, quantity:1})
+    }).then(res=>res.json()).then(data=>{
+        if(data.status===200) alert('Item added to cart!');
         else alert('حدث خطأ');
     });
 }
