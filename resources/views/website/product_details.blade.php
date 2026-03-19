@@ -12,79 +12,6 @@
 }
 
 
-/* === Product Card === */
-.product-card {
-    background: #fff;
-    border: 1px solid #f0f0f0;
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-}
-
-.product-card:hover {
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    transform: translateY(-5px);
-}
-
-.product-card > a {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    height: 100%;
-}
-
-.product-card__image {
-    padding: 1.5rem;
-    border-bottom: 1px solid #f8f9fa;
-}
-
-.product-card__image img {
-    width: 100%;
-    height: 180px;
-    object-fit: contain;
-}
-
-.product-card__content {
-    padding: 1rem;
-}
-
-.product-card__title {
-    color: #333;
-    font-size: 15px;
-    margin-bottom: 6px;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.product-card__stars {
-    color: #fbb308;
-    font-size: 13px;
-    margin-bottom: 8px;
-}
-
-.product-card__footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-}
-
-.product-card__price {
-    font-weight: 700;
-    font-size: 16px;
-    color: #2d3748;
-}
-
-.product-card__cart {
-    color: #cbd5e1;
-    font-size: 16px;
-}
 </style>
 <main>
     <div class="page-header">
@@ -191,17 +118,20 @@
             <h2 class="section__title">Similar Products</h2>
             <div class="grid grid--4" id="similar-products">
                 @foreach($similarProducts as $sp)
-                    <div class="product-card">
-                        <a href="{{route('single_product', $sp->id)}}">
+                    <div class="product-card" style="background: #fff; border: 1px solid #f0f0f0; border-radius: 8px; overflow: hidden; position: relative; transition: box-shadow 0.3s ease; display: flex; flex-direction: column; text-align: center;">
+                        <a href="{{route('single_product', $sp->id)}}" style="display: block; text-decoration: none; color: inherit; height: 100%;">
                             
-                            <div class="product-card__image">
-                                <img src="{{ $sp->clean_image_link_1 }}" alt="{{ $sp->name_en }}">
+                            <!-- Product Image -->
+                            <div style="padding: 1.5rem; border-bottom: 1px solid #f8f9fa;">
+                                <img src="{{ $sp->clean_image_link_1 }}" alt="{{ $sp->name_en }}" style="width: 100%; height: 180px; object-fit: contain;">
                             </div>
 
-                            <div class="product-card__content">
-                                <h3 class="product-card__title">{{ $sp->name_en }}</h3>
+                            <!-- Product Details -->
+                            <div style="padding: 1rem;">
+                                <h3 style="color: #333; font-size: 15px; margin-bottom: 6px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $sp->name_en }}</h3>
                                 
-                                <div class="product-card__stars">
+                                <!-- Stars -->
+                                <div style="color: #fbb308; font-size: 13px; margin-bottom: 8px;">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
@@ -209,9 +139,10 @@
                                     <i class="far fa-star"></i>
                                 </div>
                                 
-                                <div class="product-card__footer">
-                                    <span class="product-card__price">{{ number_format($sp->price, 2) }} EGP</span>
-                                    <i class="fas fa-shopping-cart product-card__cart" style="color: var(--primary-color); cursor: pointer; padding: 5px;" onclick="event.preventDefault(); addToCartQuick({{ $sp->id }});"></i>
+                                <!-- Price and Cart Icon -->
+                                <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+                                    <span style="font-weight: 700; font-size: 16px; color: #2d3748;">{{ number_format($sp->price, 2) }} EGP</span>
+                                    <i class="fas fa-shopping-cart product-card__cart" style="color: var(--primary-color); font-size: 18px; cursor: pointer; padding: 5px;" onclick="event.preventDefault(); addToCartQuick({{ $sp->id }});"></i>
                                 </div>
                             </div>
                         </a>
