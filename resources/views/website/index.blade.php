@@ -9,7 +9,7 @@
                     <!-- Overlay to improve text readability -->
                     <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4);"></div>
                     
-                    <div class="container" style="position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center;">
+                    <!-- <div class="container" style="position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center;">
                         <div class="slider__content" style="max-width: 800px; padding: 2rem;">
                             <h1 class="slider__title" style="color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
                                 {{$slider->name_en}} <span class="slider__title-highlight"></span>
@@ -19,7 +19,7 @@
                             </p>
                             {{-- <a href="products.html" class="btn btn--primary btn--lg">Shop Now <i class="fas fa-arrow-right"></i></a> --}}
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 @endforeach
             </div>
@@ -164,4 +164,4 @@ function addToCartQuick(productId) {
     }).catch(err => console.error(err));
 }
 </script>
-@endpush
+@endpush
