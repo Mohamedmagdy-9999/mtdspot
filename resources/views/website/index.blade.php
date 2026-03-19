@@ -7,15 +7,7 @@
                 <div class="slider__container">
                     @foreach($sliders as $slider)
                     <div class="slider__slide">
-                        <div class="slider__content">
-                            <h1 class="slider__title">
-                                {{$slider->name_en}} <span class="slider__title-highlight"></span>
-                            </h1>
-                            <p class="slider__description">
-                               {{$slider->desc_en}}
-                            </p>
-                            {{-- <a href="products.html" class="btn btn--primary btn--lg">Shop Now <i class="fas fa-arrow-right"></i></a> --}}
-                        </div>
+                        
                         <div class="slider__image-wrapper">
                             <img src="{{$slider->image_url}}" alt="Modern Furniture" class="slider__image">
                         </div>
