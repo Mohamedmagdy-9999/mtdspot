@@ -36,12 +36,85 @@
     font-weight:bold;
     font-size:1.1rem;
 }
-.box{
-    border:1px solid var(--border-color);
+.selection-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+@media(max-width: 600px) {
+    .selection-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+.selection-card {
+    border: 2px solid var(--border-color);
     background: var(--bg-secondary);
-    padding:10px;
-    border-radius:5px;
-    margin-bottom:10px;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.selection-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+}
+
+.selection-card.selected {
+    border-color: var(--primary-color);
+    background: rgba(255, 183, 3, 0.05);
+    box-shadow: 0 4px 15px rgba(255, 183, 3, 0.15);
+}
+
+.selection-card.selected::before {
+    content: '\f058'; /* fa-check-circle */
+    font-family: 'Font Awesome 5 Free';
+    font-weight: 900;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    color: var(--primary-color);
+    font-size: 1.5rem;
+}
+
+.selection-card-icon {
+    font-size: 2rem;
+    color: var(--text-secondary);
+    transition: color 0.3s ease;
+}
+
+.selection-card.selected .selection-card-icon {
+    color: var(--primary-color);
+}
+
+.selection-card input[type="radio"] {
+    display: none;
+}
+
+.selection-content {
+    flex: 1;
+}
+
+.selection-title {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.selection-desc {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.5;
 }
 label{
     cursor:pointer;
@@ -76,15 +149,24 @@ input, select{
                
 
                 <!-- Payment -->
-                <h3 style="margin-top:2rem;">Payment Method</h3>
-                <div class="box">
-                    <label>
+                <h3 style="margin-top:2.5rem; margin-bottom: 1.5rem;">Payment Method</h3>
+                <div class="selection-grid">
+                    <label class="selection-card selected" onclick="selectPaymentCard(this)">
                         <input type="radio" name="status" value="0" checked>
-                        Cash on Delivery
+                        <div class="selection-card-icon"><i class="fas fa-money-bill-wave"></i></div>
+                        <div class="selection-content">
+                            <div class="selection-title">Cash on Delivery</div>
+                            <div class="selection-desc">Pay when your order arrives</div>
+                        </div>
                     </label>
-                    <label>
+
+                    <label class="selection-card" onclick="selectPaymentCard(this)">
                         <input type="radio" name="status" value="1">
-                        Visa / Card
+                        <div class="selection-card-icon"><i class="fas fa-credit-card"></i></div>
+                        <div class="selection-content">
+                            <div class="selection-title">Visa / Mastercard</div>
+                            <div class="selection-desc">Safe & secure online payment</div>
+                        </div>
                     </label>
                 </div>
 
@@ -179,11 +261,16 @@ function loadAddresses(){
 
             res.data.forEach(a=>{
                 c.innerHTML += `
-                    <label class="box">
+                    <label class="selection-card" onclick="selectAddressCard(this)" style="margin-bottom: 1rem;">
                         <input type="radio" name="address_id" value="${a.id}">
-                        ${a.address} - B:${a.building_no}
-                        F:${a.floor_no} A:${a.flat_no}
-                        <br><small>${a.phone}</small>
+                        <div class="selection-card-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <div class="selection-content">
+                            <div class="selection-title">${a.city_name || 'Shipping Address'}</div>
+                            <div class="selection-desc">
+                                ${a.address}, B:${a.building_no}, F:${a.floor_no}, Flat:${a.flat_no}<br>
+                                <strong style="color: var(--text-primary);"><i class="fas fa-phone-alt" style="font-size:0.8rem;"></i> ${a.phone ?? 'No phone added'}</strong>
+                            </div>
+                        </div>
                     </label>`;
             });
 
@@ -302,6 +389,18 @@ document.addEventListener('DOMContentLoaded',()=>{
     loadCheckoutItems();
     loadAddresses();
 });
+
+/* SELECTION TOGGLERS */
+function selectPaymentCard(element) {
+    document.querySelectorAll('input[name="status"]').forEach(r => r.closest('.selection-card').classList.remove('selected'));
+    element.classList.add('selected');
+}
+
+function selectAddressCard(element) {
+    document.querySelectorAll('input[name="address_id"]').forEach(r => r.closest('.selection-card').classList.remove('selected'));
+    element.classList.add('selected');
+    selectedAddressId = element.querySelector('input').value;
+}
 </script>
 
 @endsection
