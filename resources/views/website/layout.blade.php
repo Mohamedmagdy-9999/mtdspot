@@ -6,7 +6,7 @@
     <meta name="description" content="Grostore - Your trusted online furniture shopping destination">
     <title>BarQ</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="{{asset('website/css/main.css')}}">
+    <link rel="stylesheet" href="{{asset('website/css/main.css')}}?v={{ time() }}">
 </head>
 <body>
 <style>
@@ -146,7 +146,7 @@
     @yield('content')
 
 
-    <footer class="footer">
+    <footer class="footer" style="background-color: var(--bg-dark); color: var(--text-primary);">
                 <div class="container">
                     <div class="footer__content">
                         <div class="footer__section">
