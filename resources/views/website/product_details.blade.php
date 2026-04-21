@@ -12,92 +12,6 @@
 }
 
 
-/* === Product Card === */
-.product-card {
-    background: #fff;
-    border: 1px solid #f0f0f0;
-    border-radius: 8px;
-    overflow: hidden;
-    position: relative;
-    transition: box-shadow 0.3s ease, transform 0.3s ease;
-    display: flex;
-    flex-direction: column;
-    text-align: center;
-}
-
-.product-card:hover {
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    transform: translateY(-5px);
-}
-
-.product-card > a {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    height: 100%;
-}
-
-.product-card__badge {
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: #ff4d6d;
-    color: white;
-    font-size: 0.75rem;
-    font-weight: bold;
-    padding: 4px 12px;
-    border-bottom-right-radius: 8px;
-    z-index: 2;
-}
-
-.product-card__image {
-    padding: 1.5rem;
-    border-bottom: 1px solid #f8f9fa;
-}
-
-.product-card__image img {
-    width: 100%;
-    height: 180px;
-    object-fit: contain;
-}
-
-.product-card__content {
-    padding: 1rem;
-}
-
-.product-card__title {
-    color: #333;
-    font-size: 15px;
-    margin-bottom: 6px;
-    font-weight: 600;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
-.product-card__stars {
-    color: #fbb308;
-    font-size: 13px;
-    margin-bottom: 8px;
-}
-
-.product-card__footer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 8px;
-}
-
-.product-card__price {
-    font-weight: 700;
-    font-size: 16px;
-    color: #2d3748;
-}
-
-.product-card__cart {
-    color: #cbd5e1;
-    font-size: 16px;
-}
 </style>
 <main>
     <div class="page-header">
@@ -194,7 +108,7 @@
 
             <div class="tabs__content" data-content="reviews">
                 <div id="product-reviews" style="padding: 1.5rem;">
-                   @forelse($product->comments as $comment) <div style="border-bottom:1px solid #eee; padding:10px 0;"> <strong>{{ $comment->user->name ?? 'User' }}</strong> <span> - Rating: {{ $comment->rate }}/5</span> <p>{{ $comment->comment }}</p> </div> @empty <p>No reviews yet</p> @endforelse
+                   @forelse($product->comments as $comment) <div style="border-bottom:1px solid var(--border-color); padding:10px 0;"> <strong>{{ $comment->user->name ?? 'User' }}</strong> <span> - Rating: {{ $comment->rate }}/5</span> <p>{{ $comment->comment }}</p> </div> @empty <p>No reviews yet</p> @endforelse
                 </div>
             </div>
         </div>
@@ -204,18 +118,20 @@
             <h2 class="section__title">Similar Products</h2>
             <div class="grid grid--4" id="similar-products">
                 @foreach($similarProducts as $sp)
-                    <div class="product-card">
-                        <a href="{{route('single_product', $sp->id)}}">
-                            <div class="product-card__badge">10% OFF</div>
+                    <div class="product-card" style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; position: relative; transition: box-shadow 0.3s ease; display: flex; flex-direction: column; text-align: center;">
+                        <a href="{{route('single_product', $sp->id)}}" style="display: block; text-decoration: none; color: inherit; height: 100%;">
                             
-                            <div class="product-card__image">
-                                <img src="{{ $sp->clean_image_link_1 }}" alt="{{ $sp->name_en }}">
+                            <!-- Product Image -->
+                            <div style="padding: 1.5rem; border-bottom: 1px solid var(--border-color); background: var(--bg-secondary);">
+                                <img src="{{ $sp->clean_image_link_1 }}" alt="{{ $sp->name_en }}" style="width: 100%; height: 180px; object-fit: contain;">
                             </div>
 
-                            <div class="product-card__content">
-                                <h3 class="product-card__title">{{ $sp->name_en }}</h3>
+                            <!-- Product Details -->
+                            <div style="padding: 1rem;">
+                                <h3 style="color: var(--text-primary); font-size: 15px; margin-bottom: 6px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $sp->name_en }}</h3>
                                 
-                                <div class="product-card__stars">
+                                <!-- Stars -->
+                                <div style="color: #fbb308; font-size: 13px; margin-bottom: 8px;">
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
                                     <i class="fas fa-star"></i>
@@ -223,9 +139,10 @@
                                     <i class="far fa-star"></i>
                                 </div>
                                 
-                                <div class="product-card__footer">
-                                    <span class="product-card__price">{{ number_format($sp->price, 2) }} EGP</span>
-                                    <i class="fas fa-shopping-cart product-card__cart"></i>
+                                <!-- Price and Cart Icon -->
+                                <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+                                    <span style="font-weight: 700; font-size: 16px; color: var(--text-primary);">{{ number_format($sp->price, 2) }} EGP</span>
+                                    <i class="fas fa-shopping-cart product-card__cart" style="color: var(--primary-color); font-size: 18px; cursor: pointer; padding: 5px;" onclick="event.preventDefault(); addToCartQuick({{ $sp->id }});"></i>
                                 </div>
                             </div>
                         </a>
@@ -263,13 +180,25 @@ function increaseQuantity(){
 }
 
 function addToCart(productId){
-    const quantity=parseInt(document.getElementById('quantity-input').value)||1;
+    const input = document.getElementById('quantity-input');
+    const quantity = input ? (parseInt(input.value) || 1) : 1;
     fetch("{{ route('addtocart') }}",{
         method:'POST',
         headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},
         body:JSON.stringify({product_id:productId, quantity:quantity})
     }).then(res=>res.json()).then(data=>{
         if(data.status===200) alert(data.message);
+        else alert('حدث خطأ');
+    });
+}
+
+function addToCartQuick(productId){
+    fetch("{{ route('addtocart') }}",{
+        method:'POST',
+        headers:{'Content-Type':'application/json','X-CSRF-TOKEN':'{{ csrf_token() }}'},
+        body:JSON.stringify({product_id:productId, quantity:1})
+    }).then(res=>res.json()).then(data=>{
+        if(data.status===200) alert('Item added to cart!');
         else alert('حدث خطأ');
     });
 }

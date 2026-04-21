@@ -9,7 +9,7 @@
                     <!-- Overlay to improve text readability -->
                     <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4);"></div>
                     
-                    <div class="container" style="position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center;">
+                    <!-- <div class="container" style="position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center;">
                         <div class="slider__content" style="max-width: 800px; padding: 2rem;">
                             <h1 class="slider__title" style="color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
                                 {{$slider->name_en}} <span class="slider__title-highlight"></span>
@@ -19,7 +19,7 @@
                             </p>
                             {{-- <a href="products.html" class="btn btn--primary btn--lg">Shop Now <i class="fas fa-arrow-right"></i></a> --}}
                         </div>
-                    </div>
+                    </div> -->
                 </div>
                 @endforeach
             </div>
@@ -67,21 +67,16 @@
                 <div class="grid grid--4" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;">
                     @if(isset($best_products))
                         @forelse($best_products as $product)
-                            <div class="product-card" style="background: #fff; border: 1px solid #f0f0f0; border-radius: 8px; overflow: hidden; position: relative; transition: box-shadow 0.3s ease; display: flex; flex-direction: column; text-align: center;">
+                            <div class="product-card" style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; position: relative; transition: box-shadow 0.3s ease; display: flex; flex-direction: column; text-align: center;">
                                 <a href="{{route('single_product', $product->id)}}" style="display: block; text-decoration: none; color: inherit; height: 100%;">
-                                    <!-- Discount Badge -->
-                                    <div style="position: absolute; top: 0; left: 0; background: #ff4d6d; color: white; font-size: 0.75rem; font-weight: bold; padding: 4px 12px; border-bottom-right-radius: 8px;">
-                                        10% OFF
-                                    </div>
-                                    
                                     <!-- Product Image -->
-                                    <div style="padding: 1.5rem; border-bottom: 1px solid #f8f9fa;">
+                                    <div style="padding: 1.5rem; border-bottom: 1px solid var(--border-color); background: var(--bg-secondary);">
                                         <img src="{{ $product->clean_image_link_1 }}" alt="{{ $product->name_en }}" style="width: 100%; height: 180px; object-fit: contain;">
                                     </div>
                                     
                                     <!-- Product Details -->
                                     <div style="padding: 1rem;">
-                                        <h3 style="color: #333; font-size: 15px; margin-bottom: 6px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $product->name_en }}</h3>
+                                        <h3 style="color: var(--text-primary); font-size: 15px; margin-bottom: 6px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $product->name_en }}</h3>
                                         
                                         <!-- Stars -->
                                         <div style="color: #fbb308; font-size: 13px; margin-bottom: 8px;">
@@ -94,8 +89,8 @@
                                         
                                         <!-- Price and Cart Icon -->
                                         <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
-                                            <span style="font-weight: 700; font-size: 16px; color: #2d3748;">{{ number_format($product->price, 2) }} EGP</span>
-                                            <i class="fas fa-shopping-cart" style="color: #cbd5e1; font-size: 16px;"></i>
+                                            <span style="font-weight: 700; font-size: 16px; color: var(--text-primary);">{{ number_format($product->price, 2) }} EGP</span>
+                                            <i class="fas fa-shopping-cart" style="color: var(--primary-color); font-size: 18px; cursor: pointer; padding: 5px;" onclick="event.preventDefault(); addToCartQuick({{ $product->id }});"></i>
                                         </div>
                                     </div>
                                 </a>
@@ -149,4 +144,24 @@
         </div>
     </main>
 @endsection
-    
+@push('scripts')
+<script>
+function addToCartQuick(productId) {
+    fetch("{{ route('addtocart') }}",{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body:JSON.stringify({product_id: productId, quantity: 1})
+    }).then(res=>res.json()).then(data=>{
+        if(data.status===200) {
+            alert('Item added to cart!');
+            // Optional: update cart badge here
+        } else {
+            alert('حدث خطأ');
+        }
+    }).catch(err => console.error(err));
+}
+</script>
+@endpush
