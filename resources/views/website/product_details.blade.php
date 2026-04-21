@@ -108,7 +108,7 @@
 
             <div class="tabs__content" data-content="reviews">
                 <div id="product-reviews" style="padding: 1.5rem;">
-                   @forelse($product->comments as $comment) <div style="border-bottom:1px solid #eee; padding:10px 0;"> <strong>{{ $comment->user->name ?? 'User' }}</strong> <span> - Rating: {{ $comment->rate }}/5</span> <p>{{ $comment->comment }}</p> </div> @empty <p>No reviews yet</p> @endforelse
+                   @forelse($product->comments as $comment) <div style="border-bottom:1px solid var(--border-color); padding:10px 0;"> <strong>{{ $comment->user->name ?? 'User' }}</strong> <span> - Rating: {{ $comment->rate }}/5</span> <p>{{ $comment->comment }}</p> </div> @empty <p>No reviews yet</p> @endforelse
                 </div>
             </div>
         </div>
@@ -118,17 +118,17 @@
             <h2 class="section__title">Similar Products</h2>
             <div class="grid grid--4" id="similar-products">
                 @foreach($similarProducts as $sp)
-                    <div class="product-card" style="background: #fff; border: 1px solid #f0f0f0; border-radius: 8px; overflow: hidden; position: relative; transition: box-shadow 0.3s ease; display: flex; flex-direction: column; text-align: center;">
+                    <div class="product-card" style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; position: relative; transition: box-shadow 0.3s ease; display: flex; flex-direction: column; text-align: center;">
                         <a href="{{route('single_product', $sp->id)}}" style="display: block; text-decoration: none; color: inherit; height: 100%;">
                             
                             <!-- Product Image -->
-                            <div style="padding: 1.5rem; border-bottom: 1px solid #f8f9fa;">
+                            <div style="padding: 1.5rem; border-bottom: 1px solid var(--border-color); background: var(--bg-secondary);">
                                 <img src="{{ $sp->clean_image_link_1 }}" alt="{{ $sp->name_en }}" style="width: 100%; height: 180px; object-fit: contain;">
                             </div>
 
                             <!-- Product Details -->
                             <div style="padding: 1rem;">
-                                <h3 style="color: #333; font-size: 15px; margin-bottom: 6px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $sp->name_en }}</h3>
+                                <h3 style="color: var(--text-primary); font-size: 15px; margin-bottom: 6px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $sp->name_en }}</h3>
                                 
                                 <!-- Stars -->
                                 <div style="color: #fbb308; font-size: 13px; margin-bottom: 8px;">
@@ -141,7 +141,7 @@
                                 
                                 <!-- Price and Cart Icon -->
                                 <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
-                                    <span style="font-weight: 700; font-size: 16px; color: #2d3748;">{{ number_format($sp->price, 2) }} EGP</span>
+                                    <span style="font-weight: 700; font-size: 16px; color: var(--text-primary);">{{ number_format($sp->price, 2) }} EGP</span>
                                     <i class="fas fa-shopping-cart product-card__cart" style="color: var(--primary-color); font-size: 18px; cursor: pointer; padding: 5px;" onclick="event.preventDefault(); addToCartQuick({{ $sp->id }});"></i>
                                 </div>
                             </div>
