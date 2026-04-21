@@ -42,7 +42,7 @@
             </div>
 
             <div>
-                <div style="border:1px solid #eee; padding:1rem; border-radius:5px;">
+                <div style="border:1px solid var(--border-color); background: var(--bg-secondary); padding:1rem; border-radius:5px;">
                     <h2>Order Summary</h2>
                     <div style="display:flex; justify-content:space-between;"><span>Subtotal</span><span id="subtotal">$0.00</span></div>
                     <div style="display:flex; justify-content:space-between;"><span>Total</span><span id="total">$0.00</span></div>

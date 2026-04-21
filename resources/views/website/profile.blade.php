@@ -75,7 +75,7 @@
 <div class="tabs__content" data-content="orders">
     @if($orders->count())
         @foreach($orders as $order)
-            <div class="card card--order" style="margin-bottom: 1.5rem; padding: 1rem; border: 1px solid #ddd; border-radius: 10px;">
+            <div class="card card--order" style="margin-bottom: 1.5rem; padding: 1rem; border: 1px solid var(--border-color); border-radius: 10px; background: var(--bg-secondary);">
                 <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
                     <div>
                         <strong>Order #{{ $order->id }}</strong><br>

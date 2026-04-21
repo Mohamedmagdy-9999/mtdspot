@@ -67,16 +67,16 @@
                 <div class="grid grid--4" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px;">
                     @if(isset($best_products))
                         @forelse($best_products as $product)
-                            <div class="product-card" style="background: #fff; border: 1px solid #f0f0f0; border-radius: 8px; overflow: hidden; position: relative; transition: box-shadow 0.3s ease; display: flex; flex-direction: column; text-align: center;">
+                            <div class="product-card" style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; position: relative; transition: box-shadow 0.3s ease; display: flex; flex-direction: column; text-align: center;">
                                 <a href="{{route('single_product', $product->id)}}" style="display: block; text-decoration: none; color: inherit; height: 100%;">
                                     <!-- Product Image -->
-                                    <div style="padding: 1.5rem; border-bottom: 1px solid #f8f9fa;">
+                                    <div style="padding: 1.5rem; border-bottom: 1px solid var(--border-color); background: var(--bg-secondary);">
                                         <img src="{{ $product->clean_image_link_1 }}" alt="{{ $product->name_en }}" style="width: 100%; height: 180px; object-fit: contain;">
                                     </div>
                                     
                                     <!-- Product Details -->
                                     <div style="padding: 1rem;">
-                                        <h3 style="color: #333; font-size: 15px; margin-bottom: 6px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $product->name_en }}</h3>
+                                        <h3 style="color: var(--text-primary); font-size: 15px; margin-bottom: 6px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $product->name_en }}</h3>
                                         
                                         <!-- Stars -->
                                         <div style="color: #fbb308; font-size: 13px; margin-bottom: 8px;">
@@ -89,7 +89,7 @@
                                         
                                         <!-- Price and Cart Icon -->
                                         <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
-                                            <span style="font-weight: 700; font-size: 16px; color: #2d3748;">{{ number_format($product->price, 2) }} EGP</span>
+                                            <span style="font-weight: 700; font-size: 16px; color: var(--text-primary);">{{ number_format($product->price, 2) }} EGP</span>
                                             <i class="fas fa-shopping-cart" style="color: var(--primary-color); font-size: 18px; cursor: pointer; padding: 5px;" onclick="event.preventDefault(); addToCartQuick({{ $product->id }});"></i>
                                         </div>
                                     </div>

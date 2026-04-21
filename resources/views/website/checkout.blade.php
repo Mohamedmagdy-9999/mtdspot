@@ -22,7 +22,8 @@
     flex:1;
 }
 .checkout-summary{
-    border:1px solid #eee;
+    border:1px solid var(--border-color);
+    background: var(--bg-secondary);
     padding:1rem;
     border-radius:5px;
 }
@@ -36,7 +37,8 @@
     font-size:1.1rem;
 }
 .box{
-    border:1px solid #ddd;
+    border:1px solid var(--border-color);
+    background: var(--bg-secondary);
     padding:10px;
     border-radius:5px;
     margin-bottom:10px;
@@ -49,6 +51,9 @@ input, select{
     width:100%;
     padding:8px;
     margin-bottom:8px;
+    border:1px solid var(--border-color);
+    background: var(--bg-primary);
+    color: var(--text-primary);
 }
 </style>
 
