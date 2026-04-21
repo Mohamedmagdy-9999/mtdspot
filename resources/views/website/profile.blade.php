@@ -6,21 +6,18 @@
 <style>
 /* Dashboard Redesign */
 .profile-dash-grid {
-    display: grid;
-    grid-template-columns: 280px 1fr;
+    display: flex;
+    flex-wrap: nowrap;
     gap: 2rem;
-    align-items: start;
+    align-items: flex-start;
     margin-top: 1rem;
     margin-bottom: 4rem;
-}
-
-@media(max-width: 900px) {
-    .profile-dash-grid {
-        grid-template-columns: 1fr;
-    }
+    width: 100%;
 }
 
 .profile-sidebar {
+    flex: 0 0 280px;
+    width: 280px;
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: 1rem;
@@ -28,6 +25,28 @@
     position: sticky;
     top: 100px;
     box-shadow: var(--shadow-sm);
+}
+
+.profile-content-area {
+    flex: 1 1 auto;
+    width: calc(100% - 315px); /* Ensure strict width allocation minus gap */
+    min-width: 0;
+    min-height: 500px;
+}
+
+@media(max-width: 900px) {
+    .profile-dash-grid {
+        flex-wrap: wrap;
+    }
+    .profile-sidebar {
+        flex: 0 0 100%;
+        width: 100%;
+        position: relative;
+        top: 0;
+    }
+    .profile-content-area {
+        width: 100%;
+    }
 }
 
 .profile-tab-btn {
@@ -58,10 +77,6 @@
     color: var(--bg-dark);
 }
 
-.profile-content-area {
-    min-height: 500px;
-}
-
 .profile-tab-content {
     display: none;
     animation: fadeIn 0.4s ease;
@@ -78,6 +93,16 @@
     border-radius: 1rem;
     padding: 2.5rem;
     box-shadow: var(--shadow-sm);
+    width: 100%;
+}
+
+.profile-header-wrap {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+    gap: 1rem;
 }
 
 .profile-form-grid {
@@ -95,7 +120,6 @@
         grid-template-columns: 1fr;
     }
 }
-
 /* Modern Order Card */
 .order-card-modern {
     background: var(--bg-secondary);
@@ -496,26 +520,27 @@
 {{-- Personal Info --}}
 <div class="profile-tab-content active" id="tab-info">
     <div class="profile-panel">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-            <h2 style="font-size: 1.5rem; color: var(--text-primary);">Personal Information</h2>
-            <button class="btn btn--outline" onclick="openProfileModal('editInfoModal')">
-                <i class="fas fa-edit"></i> Edit Profile
+        <div class="profile-header-wrap">
+            <h2 style="font-size: 1.5rem; color: var(--text-primary); margin: 0;">Personal Information</h2>
+            <button class="btn btn-anim" style="padding: 0.75rem 1.5rem; background: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-primary); border-radius: 0.5rem; font-weight: 600; cursor: pointer;" onclick="openProfileModal('editInfoModal')">
+                <i class="fas fa-edit" style="color: var(--primary-color);"></i> Edit Profile
             </button>
         </div>
         
         <div class="profile-form-grid" style="grid-template-columns: 1fr;">
-            <div style="background: var(--bg-primary); padding: 2rem; border-radius: 1rem; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 2rem;">
-                <div style="font-size: 5rem; color: var(--text-secondary); opacity: 0.8;">
+            <div style="background: var(--bg-primary); padding: 2rem; border-radius: 1rem; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 2rem; overflow: hidden; flex-wrap: wrap;">
+                <div style="font-size: 5rem; color: var(--text-secondary); opacity: 0.8; display: flex; align-items: center; justify-content: center; width: 100px; height: 100px; background: var(--bg-secondary); border-radius: 50%;">
                     @if($user->image)
-                        <img src="{{ asset('storage/' . $user->image) }}" alt="Avatar" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;">
+                        <img src="{{ asset('storage/' . $user->image) }}" alt="User Avatar" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover;" onerror="this.onerror=null; this.style.display='none'; this.nextElementSibling.style.display='block';">
+                        <i class="fas fa-user-circle" style="display: none;"></i>
                     @else
                         <i class="fas fa-user-circle"></i>
                     @endif
                 </div>
-                <div>
-                    <h3 style="color: var(--text-primary); margin-bottom: 0.75rem; font-size: 1.5rem; font-weight: 800;">{{ $user->name }}</h3>
-                    <p style="color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 1.1rem;"><i class="fas fa-envelope"></i> {{ $user->email }}</p>
-                    <p style="color: var(--text-secondary); font-size: 1.1rem;"><i class="fas fa-phone"></i> {{ $user->phone ?? 'No phone string provided' }}</p>
+                <div style="flex: 1; min-width: 200px;">
+                    <h3 style="color: var(--text-primary); margin-bottom: 0.75rem; font-size: 1.5rem; font-weight: 800; word-break: break-word;">{{ $user->name }}</h3>
+                    <p style="color: var(--text-secondary); margin-bottom: 0.5rem; font-size: 1.1rem; word-break: break-word;"><i class="fas fa-envelope" style="width: 20px;"></i> {{ $user->email }}</p>
+                    <p style="color: var(--text-secondary); font-size: 1.1rem; word-break: break-word;"><i class="fas fa-phone" style="width: 20px;"></i> {{ $user->phone ?? 'No phone provided' }}</p>
                 </div>
             </div>
         </div>
