@@ -13,7 +13,8 @@
 
 /* === Filters Sidebar === */
 .filters {
-    background: #f9f9f9;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
     padding: 20px;
     border-radius: 10px;
     font-family: sans-serif;
@@ -54,7 +55,9 @@
     width: 100%;
     padding: 6px 10px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid var(--border-color);
+    background: var(--bg-primary);
+    color: var(--text-primary);
 }
 
 .filters button {
@@ -82,57 +85,11 @@
     gap: 20px;
 }
 
-/* === Product Card === */
-.product-card {
-    background: #fff;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,.1);
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-}
-
-.product-card__image img {
-    width: 100%;
-    height: 220px;
-    object-fit: cover;
-}
-
-.product-card__content {
-    padding: 15px;
-    text-align: center;
-}
-
-.product-card__title {
-    color: #111;
-    font-size: 16px;
-    margin-bottom: 8px;
-    line-height: 1.4;
-}
-
-.product-card__price {
-    color: #555;
-    margin-bottom: 10px;
-}
-
-.product-card a.btn--primary {
-    display: inline-block;
-    padding: 8px 12px;
-    background: #007bff;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-    font-size: 14px;
-}
-
-.product-card a.btn--primary:hover {
-    background: #0056b3;
-}
-
 /* === Page Header === */
 .page-header {
     padding: 20px 0;
-    background: #f1f1f1;
+    background: var(--bg-secondary);
+    color: var(--text-primary);
     margin-bottom: 30px;
 }
 
@@ -149,7 +106,7 @@
 
 .page-header__breadcrumb span {
     margin-right: 5px;
-    color: #555;
+    color: var(--text-secondary);
 }
 
 /* === Responsive === */
@@ -237,20 +194,36 @@
                     <div class="product-card"
                         data-price="{{ $product->price }}"
                         data-rating="{{ $product->average_rating }}"
-                        data-category="{{ $category->name_en }}">
+                        data-category="{{ $category->name_en }}"
+                        style="background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 8px; overflow: hidden; position: relative; transition: box-shadow 0.3s ease; display: flex; flex-direction: column; text-align: center;">
                         
-                        <div class="product-card__image">
-                            <img src="{{ $product->clean_image_link_1 }}" alt="{{ $product->name_en }}">
-                        </div>
+                        <a href="{{route('single_product', $product->id)}}" style="display: block; text-decoration: none; color: inherit; height: 100%;">
+                            
+                            <!-- Product Image -->
+                            <div style="padding: 1.5rem; border-bottom: 1px solid var(--border-color); background: var(--bg-secondary);">
+                                <img src="{{ $product->clean_image_link_1 }}" alt="{{ $product->name_en }}" style="width: 100%; height: 180px; object-fit: contain;">
+                            </div>
 
-                        <div class="product-card__content">
-                            <h3 class="product-card__title">{{ $product->name_en }}</h3>
-                            <p class="product-card__price">{{ number_format($product->price, 2) }} EGP</p>
-                            <a href="{{route('single_product',$product->id)}}" class="btn btn--primary btn--sm">
-                                View Details
-                            </a>
-                        </div>
-
+                            <!-- Product Details -->
+                            <div style="padding: 1rem;">
+                                <h3 style="color: var(--text-primary); font-size: 15px; margin-bottom: 6px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ $product->name_en }}</h3>
+                                
+                                <!-- Stars -->
+                                <div style="color: #fbb308; font-size: 13px; margin-bottom: 8px;">
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="fas fa-star"></i>
+                                    <i class="far fa-star"></i>
+                                </div>
+                                
+                                <!-- Price and Cart Icon -->
+                                <div style="display: flex; justify-content: center; align-items: center; gap: 8px;">
+                                    <span style="font-weight: 700; font-size: 16px; color: var(--text-primary);">{{ number_format($product->price, 2) }} EGP</span>
+                                    <i class="fas fa-shopping-cart product-card__cart" style="color: var(--primary-color); font-size: 18px; cursor: pointer; padding: 5px;" onclick="event.preventDefault(); addToCartQuick({{ $product->id }});"></i>
+                                </div>
+                            </div>
+                        </a>
                     </div>
                     @empty
                     <div class="empty-state">
@@ -315,5 +288,22 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 });
+
+function addToCartQuick(productId) {
+    fetch("{{ route('addtocart') }}",{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json',
+            'X-CSRF-TOKEN': '{{ csrf_token() }}'
+        },
+        body:JSON.stringify({product_id: productId, quantity: 1})
+    }).then(res=>res.json()).then(data=>{
+        if(data.status===200) {
+            alert('Item added to cart!');
+        } else {
+            alert('حدث خطأ');
+        }
+    }).catch(err => console.error(err));
+}
 </script>
 @endpush

@@ -587,112 +587,94 @@ class ApiController extends Controller
         }
     }
 
-    
-   
+
     // public function create_order(Request $request)
     // {
-    //     $request->validate([
-    //         'total' =>'required',
-    //         'type' => 'required',
-    //     ]);
-    //     $coupon = Coupon::where('code',$request->code)->first();
-    //     $order = new UserPurchase();
-    //     $order->user_id = auth('api')->user()->id;
-    //     $order->total = $request->total;
-    //     $order->type = $request->type;
-    //     $order->total_after_coupon = $request->total_after_coupon;
-    //     $order->service = $request->service;
-    //     $order->coupon_id = $coupon->id;
-    //     $order->user_address_id = $request->user_address_id;
-    //     if($request->type == "visa")
-    //     {
-    //         $order->status = 1;
-    //     }else{
-    //         $order->status = 0;
-    //     }
-
-    //     $order->save();
+    //     try {
+    //             $validated = $request->validate([
+    //                 'total' => 'required',
+    //                 'type' => 'required',
+    //                 'items' => 'required|array|min:1',
+    //                 'items.*.product_id' => 'required|integer|exists:products,id',
+    //                 'items.*.price' => 'required|numeric',
+    //                 'items.*.quantity' => 'required|integer|min:1',
+    //             ]);
         
 
-    //     foreach($request->product_id as $key=> $product)
-    //     {
-    //         $details = new UserPurchaseDetail();
-    //         $details->product_id = $product;
-    //         $details->user_purchase_id = $order->id;
-    //         $details->quantity = $request->quantity[$key];
-    //         $details->price = $request->price[$key];
-    //         $details->save();
-    //         $details->update([
-    //             'category_id' => $details->product->category_id,
-    //             'supplier_id' => $details->product->supplier_id,
-    //         ]);
+    //             $user = auth('api')->user();
+    //             $coupon = Coupon::where('code', $request->code)->first();
 
-            
-    //     }
 
-    //     $usercoupon = new UserCoupon();
-    //     $usercoupon->user_id = auth('api')->user()->id;
-    //     $usercoupon->coupon_id = $coupon->id;
-    //     $usercoupon->save();
-    //     return response()->json(['message'=> 'تم الطلب بنجاح']);
-    // }
+    //             $order = new UserPurchase();
+    //             $order->user_id = $user->id;
+    //             $order->total = $request->total;
+    //             $order->type = $request->type;
+    //             $order->total_after_coupon = $request->total_after_coupon;
+    //             $order->service = $request->service;
+    //             $order->coupon_id = $coupon->id ?? null;
+    //             $order->user_address_id = $request->user_address_id;
+    //             $order->status = $request->type == "visa" ? 1 : 0;
+    //             $order->payment_referrence = $request->payment_referrence;
+    //             $order->save();
 
-    // public function create_order(Request $request)
-    // {
-    //     $request->validate([
-    //         'total' => 'required',
-    //         'type' => 'required',
-    //     ]);
+    //             $order->order_code = "#0" . date('y') . date('m') . $order->id;
+    //             $order->save();
 
-    //     $user = auth('api')->user();
-    //     $coupon = Coupon::where('code', $request->code)->first();
+    //             foreach ($request->items as $item) {
+    //                 $details = new UserPurchaseDetail();
+    //                 $details->product_id = $item['product_id'];
+    //                 $details->user_purchase_id = $order->id;
+    //                 $details->quantity = $item['quantity'];
+    //                 $details->price = $item['price'];
+    //                 $details->color_id = $item['color_id'];
+    //                 $details->save();
 
-    //     $order = new UserPurchase();
-    //     $order->user_id = $user->id;
-    //     $order->total = $request->total;
-    //     $order->type = $request->type;
-    //     $order->total_after_coupon = $request->total_after_coupon;
-    //     $order->service = $request->service;
-    //     $order->coupon_id = $coupon->id ?? null;
-    //     $order->user_address_id = $request->user_address_id;
-    //     $order->status = $request->type == "visa" ? 1 : 0;
-    //     $order->save();
+    //                 // تحديث معلومات المنتج الإضافية
+    //                 $details->update([
+    //                     'category_id' => $details->product->category_id,
+    //                     'supplier_id' => $details->product->supplier_id,
+    //                 ]);
 
-    //     foreach ($request->product_id as $key => $product) {
-    //         $details = new UserPurchaseDetail();
-    //         $details->product_id = $product;
-    //         $details->user_purchase_id = $order->id;
-    //         $details->quantity = $request->quantity[$key];
-    //         $details->price = $request->price[$key];
-    //         $details->save();
+    //                 // تحديث حالة المنتج في السلة
+    //                 CartItem::where('product_id', $item['product_id'])
+    //                     ->whereHas('cart', function ($q) use ($user) {
+    //                         $q->where('user_id', $user->id);
+    //                     })
+    //                     ->where('type', 0)
+    //                     ->update(['type' => 2]); // 2 = تم طلبها
+    //             }
 
-    //         $details->update([
-    //             'category_id' => $details->product->category_id,
-    //             'supplier_id' => $details->product->supplier_id,
-    //         ]);
+    //             // حفظ الكوبون للمستخدم (لو موجود)
+    //             if ($coupon) {
+    //                 UserCoupon::create([
+    //                     'user_id' => $user->id,
+    //                     'coupon_id' => $coupon->id,
+    //                 ]);
+    //             }
 
-    //         // ✅ هنا التحديث اللي انت عايزه
-    //         CartItem::where('product_id', $product)
-    //             ->whereHas('cart', function ($q) use ($user) {
-    //                 $q->where('user_id', $user->id);
-    //             })
-    //             ->where('type', 0) // فقط المنتجات اللي لسه في السلة
-    //             ->update(['type' => 2]); // 2 = تم طلبها
-    //     }
+    //             return response()->json([
+    //                 'status' => 200,
+    //                 'message' => 'تم اضافة الطلب بنجاح',
+    //                 'data' => [],
+    //             ]);
+    //     } catch (ValidationException $e) {
+    //         // جمع أول رسالة من كل خطأ
+    //         $errors = collect($e->errors())->map(function($messages){
+    //             return $messages[0];
+    //         })->values();
 
-    //     // حفظ الكوبون للمستخدم
-    //     if ($coupon) {
-    //         UserCoupon::create([
-    //             'user_id' => $user->id,
-    //             'coupon_id' => $coupon->id,
-    //         ]);
-    //     }
-
-    //     return response()->json([
-    //             'status' => 200,
-    //             'message' => 'تم اضافة الطلب بنجاح' ,
+    //         return response()->json([
+    //             'status' => 201,
+    //             'message' => $errors,
     //             'data' => [],
-    //     ]);
+    //         ]);
+    //     } catch (\Exception $e) {
+    //         return response()->json([
+    //             'status' => 500,
+    //             'message' => 'حدث خطأ أثناء إضافة الطلب: ' . $e->getMessage(),
+    //             'data' => [],
+    //         ]);
+    //     }
     // }
 
     public function create_order(Request $request)
@@ -700,7 +682,7 @@ class ApiController extends Controller
         try {
                 $validated = $request->validate([
                     'total' => 'required',
-                    'type' => 'required',
+                  
                     'items' => 'required|array|min:1',
                     'items.*.product_id' => 'required|integer|exists:products,id',
                     'items.*.price' => 'required|numeric',
@@ -715,17 +697,31 @@ class ApiController extends Controller
                 $order = new UserPurchase();
                 $order->user_id = $user->id;
                 $order->total = $request->total;
-                $order->type = $request->type;
+               
                 $order->total_after_coupon = $request->total_after_coupon;
                 $order->service = $request->service;
                 $order->coupon_id = $coupon->id ?? null;
                 $order->user_address_id = $request->user_address_id;
-                $order->status = $request->type == "visa" ? 1 : 0;
+                $order->status = $request->status;
+               
                 $order->payment_referrence = $request->payment_referrence;
                 $order->save();
 
                 $order->order_code = "#0" . date('y') . date('m') . $order->id;
                 $order->save();
+
+                    if ($order->status == 0) {
+                        $orderStatus = 'pending';
+                    } else {
+                        $orderStatus = 'processing';
+                    }
+
+                    $order->update([
+                        'order_status' => $orderStatus,
+                    ]);
+                                    
+
+                
 
                 foreach ($request->items as $item) {
                     $details = new UserPurchaseDetail();
@@ -734,6 +730,18 @@ class ApiController extends Controller
                     $details->quantity = $item['quantity'];
                     $details->price = $item['price'];
                     $details->color_id = $item['color_id'];
+                    if($order->status == 0)
+                    {
+                    
+                            $details->transefer = 'pending';
+                        
+
+                    }else{
+                        
+                    
+                             $details->transefer = 'created';
+                        
+                    }
                     $details->save();
 
                     // تحديث معلومات المنتج الإضافية
@@ -783,7 +791,6 @@ class ApiController extends Controller
             ]);
         }
     }
-
 
 
 

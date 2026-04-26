@@ -49,8 +49,10 @@ class HomeController extends Controller
     {
         $sliders = Slider::all();
         $cats = Category::latest()->get();
+        // Fetch products for the 'best selling' section
+        $best_products = Product::latest()->take(8)->get();
         
-        return view('website.index', compact('sliders','cats'));
+        return view('website.index', compact('sliders', 'cats', 'best_products'));
     }
 
     public function single_category($id)

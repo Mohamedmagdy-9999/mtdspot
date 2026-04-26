@@ -4,7 +4,8 @@
 <style>
     .product-card {
         position: relative;
-        background: #fff;
+        background: var(--bg-secondary);
+        border: 1px solid var(--border-color);
         border-radius: 10px;
         box-shadow: 0 5px 15px rgba(0,0,0,.1);
         overflow: hidden;
@@ -29,7 +30,7 @@
     }
 
     .product-card__price {
-        color: #555;
+        color: var(--text-secondary);
         margin-bottom: 10px;
     }
 
@@ -37,8 +38,9 @@
         position: absolute;
         top: 10px;
         right: 10px;
-        background: #fff;
-        border: none;
+        background: var(--bg-secondary);
+        color: var(--text-primary);
+        border: 1px solid var(--border-color);
         font-size: 18px;
         cursor: pointer;
         border-radius: 50%;
