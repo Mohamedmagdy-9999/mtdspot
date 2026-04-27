@@ -156,6 +156,10 @@ class ApiController extends Controller
                     'clean_image_link_2'     => $product->clean_image_link_2,
                     'clean_image_link_3'     => $product->clean_image_link_3,
                     'clean_image_link_4'     => $product->clean_image_link_4,
+                    'category_name'          => $product->category_name,
+                    'supplier_name'          => $product->supplier_name,
+                    'colors_names'          => $product->colors_names,
+
 
                 ];
             }),
