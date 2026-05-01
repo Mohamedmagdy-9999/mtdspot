@@ -13,7 +13,7 @@
 		<meta name="keywords" content="MEEM">
 
         <!-- TITLE -->
-		<title>BarQ</title>
+		<title>Vibe Vamp</title>
 
         <!-- FAVICON -->
         <link rel="shortcut icon" type="image/x-icon" href="" />
@@ -638,7 +638,7 @@
                     <div class="container">
                         <div class="row align-items-center flex-row-reverse">
                             <div class="col-md-12 col-sm-12 text-center">
-                                Copyright © 2025 <a href="#">BarQ</a>. Developed with <span class="fa fa-heart text-danger"></span> by  Mohamed Magdy - 01144862907 </a> All rights reserved
+                                Copyright © 2025 <a href="#">Vibe Vamp</a>. Developed with <span class="fa fa-heart text-danger"></span> by  Mohamed Magdy - 01144862907 </a> All rights reserved
                             </div>
                         </div>
                     </div>
