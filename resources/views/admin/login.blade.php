@@ -14,7 +14,7 @@
 		<meta name="keywords" content="laravel admin template, bootstrap admin template, admin dashboard template, admin dashboard, admin template, admin, bootstrap 5, laravel admin, laravel admin dashboard template, laravel ui template, laravel admin panel, admin panel, laravel admin dashboard, laravel template, admin ui dashboard">
 
         <!-- TITLE -->
-		<title>BarQ</title>
+		<title>Vibe Vamp</title>
 
         <!-- FAVICON -->
         <link rel="shortcut icon" type="image/x-icon" href="{{asset('admin/assets/images/brand/favicon.ico')}}" />
