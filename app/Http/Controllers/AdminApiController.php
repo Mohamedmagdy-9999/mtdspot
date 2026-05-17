@@ -504,6 +504,103 @@ class AdminApiController extends Controller
          ], 200);
     }
 
+    public function coupons()
+    {
+        $coupons = Coupon::latest()->get();
+        return response()->json(['coupons' =>$coupons]);
+    }
   
+    public function add_coupon(Request $request)
+    {
+        $request->validate([
+            'code' => 'required',
+            'end_date' => 'required|date|after_or_equal:today',
+            'value' => 'required',
+           
+        ]);
+
+       
+            $exist = Coupon::where('code',$request->code)->where('end_date',$request->end_date)->first();
+            if($exist)
+            {
+                return back()->with('error', 'هذا الكود موجود من قبل');
+            }else{
+                $coupon = new Coupon();
+                $coupon->code = $request->code;
+                $coupon->value = $request->value;
+                $coupon->end_date = $request->end_date;
+                $coupon->save();
+
+                $log = new Log();
+                $log->username = auth('api_admins')->user()->name;
+                $log->details = "اضافة كوبون" .' '. $coupon->code;
+                $log->save();
+            }
+            
+
+            return response()->json([
+               'message' => 'Coupon Added successfully',
+                'status' => 200,
+                'data' => [],
+                
+         ], 200);
+       
+    }
+
+    public function single_coupon($id)
+    {
+        $coupon = Coupon::findOrFail($id);
+        return response()->json(['coupon' =>$coupon]);
+    }
+
+     public function update_coupon(Request $request, $id)
+    {
+        $request->validate([
+            'code' => 'required',
+            'end_date' => 'required|date|after_or_equal:today',
+            'value' => 'required',
+           
+        ]);
+
+       
+            $exist = Coupon::where('code',$request->code)->where('end_date',$request->end_date)->first();
+            if($exist)
+            {
+                return back()->with('error', 'هذا الكود موجود من قبل');
+            }else{
+                $coupon =  Coupon::findOrFail($id);
+                $coupon->code = $request->code;
+                $coupon->value = $request->value;
+                $coupon->end_date = $request->end_date;
+                $coupon->save();
+
+                $log = new Log();
+                $log->username = auth()->guard('admin')->user()->name;
+                $log->details = "تعديل كوبون" .' '. $coupon->code;
+                $log->save();
+            }
+        return response()->json([
+               'message' => 'Coupon updated successfully',
+                'status' => 200,
+                'data' => [],
+                
+         ], 200);
+    }
+
+    public function delete_coupon($id)
+    {
+        $coupon =  Coupon::findOrFail($id);
+        $log = new Log();
+        $log->username = auth('api_admins')->user()->name;
+        $log->details = "حذف كوبون" .' '. $coupon->code;
+        $log->save();
+        $coupon->delete();
+        return response()->json([
+               'message' => 'Coupon deleted successfully',
+                'status' => 200,
+                'data' => [],
+                
+         ], 200);
+    }
 
 }
