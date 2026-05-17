@@ -32,7 +32,7 @@ use App\Models\About;
 use App\Models\Term;
 use App\Models\Notification;
 use App\Models\Admin;
-class ApiController extends Controller
+class AdminApiController extends Controller
 {
    
 
