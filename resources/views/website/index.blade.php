@@ -1,35 +1,27 @@
 @extends('website.layout')
 @section('content')
     <main>
-        <!-- Hero Slider (now secondary slider) -->
-        <section class="slider" style="margin-bottom: 0;">
-            <div class="slider__container">
-                @foreach($sliders as $slider)
-                <div class="slider__slide" style="min-height: 100vh; padding: 0; display: block; background: url('{{ $slider->image_url }}') no-repeat center center/cover; position: relative;">
-                    <!-- Overlay to improve text readability -->
-                    <div style="position: absolute; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.4);"></div>
-                    
-                    <!-- <div class="container" style="position: relative; height: 100vh; display: flex; align-items: center; justify-content: center; text-align: center;">
-                        <div class="slider__content" style="max-width: 800px; padding: 2rem;">
-                            <h1 class="slider__title" style="color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.5);">
-                                {{$slider->name_en}} <span class="slider__title-highlight"></span>
-                            </h1>
-                            <p class="slider__description" style="color: #f8f9fa; font-size: 1.25rem; text-shadow: 1px 1px 3px rgba(0,0,0,0.5);">
-                               {{$slider->desc_en}}
-                            </p>
-                            {{-- <a href="products.html" class="btn btn--primary btn--lg">Shop Now <i class="fas fa-arrow-right"></i></a> --}}
+        <div class="container">
+            <!-- Hero Slider -->
+            <section class="slider">
+                <div class="slider__container">
+                    @foreach($sliders as $slider)
+                    <div class="slider__slide">
+                        
+                        <div class="slider__image-wrapper">
+                            <img src="{{$slider->image_url}}" alt="Modern Furniture" class="slider__image">
                         </div>
-                    </div> -->
+                    </div>
+                    
+                    @endforeach
                 </div>
-                @endforeach
-            </div>
-            <button class="slider__nav slider__nav--prev" aria-label="Previous slide" style="background: rgba(255,255,255,0.8); color: #333;"><i class="fas fa-chevron-left"></i></button>
-            <button class="slider__nav slider__nav--next" aria-label="Next slide" style="background: rgba(255,255,255,0.8); color: #333;"><i class="fas fa-chevron-right"></i></button>
-            <!-- <div class="slider__indicators">
-                <button class="slider__indicator slider__indicator--active" aria-label="Slide 1"></button>
-                <button class="slider__indicator" aria-label="Slide 2"></button>
-            </div> -->
-        </section>
+                <button class="slider__nav slider__nav--prev" aria-label="Previous slide"><i class="fas fa-chevron-left"></i></button>
+                <button class="slider__nav slider__nav--next" aria-label="Next slide"><i class="fas fa-chevron-right"></i></button>
+                <!-- <div class="slider__indicators">
+                    <button class="slider__indicator slider__indicator--active" aria-label="Slide 1"></button>
+                    <button class="slider__indicator" aria-label="Slide 2"></button>
+                </div> -->
+            </section>
 
         <div class="container" style="padding-top: 4rem;">
             <!-- Category Section -->

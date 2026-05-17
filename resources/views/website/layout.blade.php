@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Grostore - Your trusted online furniture shopping destination">
-    <title>BarQ</title>
+    <title>Vibe Vamp</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="{{asset('website/css/main.css')}}?v={{ time() }}">
 </head>
@@ -58,7 +58,7 @@
                 <!-- Logo -->
                 <a href="{{ route('home') }}" class="header__logo">
                     <span class="header__logo-icon"><i class="fas fa-leaf"></i></span>
-                    <span>BarQ</span>
+                    <span>Vibe Vamp</span>
                 </a>
 
                 <!-- Navigation -->
@@ -184,7 +184,7 @@
                         </div>
                     </div>
                     <div class="footer__bottom">
-                        <p>&copy; 2026 BarQ. All rights reserved.by <a href="https://wa.me/2011144862907" 
+                        <p>&copy; 2026 Vibe Vamp. All rights reserved.by <a href="https://wa.me/2011144862907" 
                         target="_blank">
                         
                             Eng.Mohamed Magdy
