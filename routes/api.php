@@ -62,6 +62,12 @@ Route::prefix('v-admin')->group(function () {
 
                 Route::get('about_us','AdminApiController@about_us');
                 Route::post('update_about_us/{id}', 'AdminApiController@update_about_us');
+
+                Route::get('sliders','AdminApiController@sliders');
+                Route::post('add_slider', 'AdminApiController@add_slider');
+                Route::get('slider_single/{id}','AdminApiController@slider_single');
+                Route::post('update_slider/{id}', 'AdminApiController@update_slider');
+                Route::post('delete_slider/{id}', 'AdminApiController@delete_slider');
             
         });
 
