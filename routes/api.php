@@ -58,6 +58,7 @@ Route::prefix('v-admin')->group(function () {
         Route::middleware(['auth:api_admins', 'api_admins'])->group(function () {
             
                 Route::get('setting','AdminApiController@setting');
+                Route::post('update_setting/{id}', 'AdminApiController@update_setting');
             
         });
 
