@@ -369,7 +369,7 @@ class AdminApiController extends Controller
 
     public function products()
     {
-        $products = Product::latest()->get();
+        $products = Product::latest()->paginate(10);
         return response()->json(['products' =>$products]);
     }
 
