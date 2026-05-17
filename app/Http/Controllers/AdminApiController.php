@@ -277,6 +277,94 @@ class AdminApiController extends Controller
          ], 200);
     }
 
+    public function categories()
+    {
+        $categories = Category::latest()->get();
+        return response()->json(['categories' =>$categories]);
+    }
+
+    public function add_category(Request $request)
+    {
+        $request->validate([
+            'name_ar' => 'required',
+            'name_en' => 'required',
+            'image' => 'nullable',
+        ]);
+
+       $category = new Category();
+       $category->name_ar = $request->name_ar;
+       $category->name_en = $request->name_en;
+       if ($file = $request->file('image')) {
+            $name = time() . $file->getClientOriginalName();
+            $file->move('categories', $name);
+            $category->image = $name;
+        }
+        $category->save();
+
+       
+        return response()->json([
+               'message' => 'Category Added successfully',
+                'status' => 200,
+                'data' => [],
+                
+         ], 200);
+    }
+
+    public function single_category($id)
+    {
+        $category = Category::findOrFail($id);
+        return response()->json(['category' =>$category]);
+    }
+
+    public function update_category(Request $request,$id)
+    {
+        $request->validate([
+            'name_ar' => 'required',
+            'name_en' => 'required',
+        ]);
+
+        if ($file = $request->file('image')) {
+            $name = time() . $file->getClientOriginalName();
+            $file->move('categories', $name);
+            
+        }
+       $category =  Category::findOrFail($id);
+       $category->name_ar = $request->name_ar;
+       $category->name_en = $request->name_en;
+       if(!empty($name))
+       {
+        $category->image = $name;
+       }
+       $category->save();
+
+        $log = new Log();
+        $log->username = auth('api_admins')->user()->name;
+        $log->details = "تعديل القسم" . ' '. $category->name_ar;
+        $log->save();
+        return response()->json([
+               'message' => 'Category Updated successfully',
+                'status' => 200,
+                'data' => [],
+                
+         ], 200);
+    }
+
+    public function delete_category($id)
+    {
+        $category =  Category::findOrFail($id);
+    
+        $log = new Log();
+        $log->username = auth('api_admins')->user()->name;
+        $log->details = "حذف القسم" . ' '. $category->name_ar;
+        $log->save();
+        $category->delete();
+        return response()->json([
+               'message' => 'Category Deleted successfully',
+                'status' => 200,
+                'data' => [],
+                
+         ], 200);
+    }
     
 
 

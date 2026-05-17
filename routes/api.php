@@ -73,6 +73,12 @@ Route::prefix('v-admin')->group(function () {
                 Route::get('users','AdminApiController@users');
                 Route::post('suspend_user/{id}','AdminApiController@suspend_user');
                 Route::post('unsuspend_user/{id}', 'AdminApiController@unsuspend_user');
+
+                Route::get('categories','AdminApiController@categories');
+                Route::post('add_category', 'AdminApiController@add_category');
+                Route::get('single_category/{id}','AdminApiController@single_category');
+                Route::post('update_category/{id}', 'AdminApiController@update_category');
+                Route::post('delete_category/{id}', 'AdminApiController@delete_category');
             
         });
 
