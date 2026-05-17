@@ -71,7 +71,7 @@ Route::prefix('v-admin')->group(function () {
 
 
                 Route::get('users','AdminApiController@users');
-                Route::get('suspend_user/{id}','AdminApiController@suspend_user');
+                Route::post('suspend_user/{id}','AdminApiController@suspend_user');
                 Route::post('unsuspend_user/{id}', 'AdminApiController@unsuspend_user');
             
         });
