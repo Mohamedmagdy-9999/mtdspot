@@ -32,6 +32,7 @@ use App\Models\About;
 use App\Models\Term;
 use App\Models\Notification;
 use App\Models\Admin;
+use App\Models\Log;
 class AdminApiController extends Controller
 {
    
@@ -129,6 +130,105 @@ class AdminApiController extends Controller
         $about->save();
          return response()->json([
                'message' => 'About Us Updated successfully',
+                'status' => 200,
+                'data' => [],
+                
+         ], 200);
+    }
+
+    public function sliders()
+    {
+        $sliders = Slider::latest()->get();
+        return response()->json(['sliders' =>$sliders]);
+    }
+
+    public function add_slider(Request $request)
+    {
+
+
+        $slider = new Slider();
+
+        // صورة
+        if ($file = $request->file('image')) {
+            $name = time() . '_' . $file->getClientOriginalName();
+            $file->move(public_path('sliders'), $name);
+            $slider->image = $name;
+        }
+
+        // باقي البيانات
+        $slider->name_ar  = $request->name_ar;
+        $slider->name_en  = $request->name_en;
+        $slider->desc_ar  = $request->desc_ar;
+        $slider->desc_en  = $request->desc_en;
+        $slider->price    = $request->price;
+        $slider->discount = $request->discount;
+        $slider->save();
+
+        // ربط المنتجات
+        $slider->products()->sync($request->product_id);
+
+        // Log
+        $log = new Log();
+        $log->username = auth('api_admins')->user()->name;
+        $log->details  = "اضافة شريط صور";
+        $log->save();
+
+        return response()->json([
+               'message' => 'Slider Store successfully',
+                'status' => 200,
+                'data' => [],
+                
+         ], 200);
+    }
+
+    public function slider_single($id)
+    {
+        $slider = Slider::findOrFail($id);
+         return response()->json(['slider' =>$slider]);
+        
+    }
+
+     public function update_slider(Request $request,$id)
+    {
+        
+        if ($file = $request->file('image')) {
+            $name = time() . $file->getClientOriginalName();
+            $file->move('sliders', $name);
+            
+        }
+       $slider = Slider::findOrFail($id);
+        if(!empty($name))
+        {
+            $slider->image = $name;
+        }
+       
+       $slider->save();
+
+        $log = new Log();
+        $log->username = auth('api_admins')->user()->name;
+        $log->details = "تعديل شريط صور" ;
+        $log->save();
+        return response()->json([
+               'message' => 'Slider Updated successfully',
+                'status' => 200,
+                'data' => [],
+                
+         ], 200);
+    }
+
+    public function delete_slider($id)
+    {
+        
+       $slider = Slider::findOrFail($id);
+        
+
+        $log = new Log();
+        $log->username = auth('api_admins')->user()->name;
+        $log->details = "حذف شريط صور" ;
+        $log->save();
+        $slider->delete();
+        return response()->json([
+               'message' => 'Slider Deleted successfully',
                 'status' => 200,
                 'data' => [],
                 
