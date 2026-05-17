@@ -35,6 +35,32 @@ use App\Models\Admin;
 class AdminApiController extends Controller
 {
    
+    public function admin_login(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|string|email',
+            'password' => 'required|string',
+        ]);
+
+        $user = Admin::where('email', $request->email)->first();
+
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json([
+                'message' => 'Invalid credentials',
+                'status' => 401,
+                'data' => [],
+            ], 401);
+        }
+
+        $user->api_token = \Str::random(60);
+        $user->save();
+
+        return response()->json([
+            'message' => 'User Login successfully',
+            'status' => 200,
+            'data' => $user,
+        ], 200);
+    }
 
     public function setting()
     {
@@ -76,34 +102,42 @@ class AdminApiController extends Controller
         
     }
 
-   public function admin_login(Request $request)
+    public function about_us()
+    {
+        $about = About::first();
+        return response()->json(['about' =>$about]);
+    }
+
+    public function update_about_us(Request $request, $id)
     {
         $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
+            'image' => 'nullable',
+            'text' => 'required',
         ]);
 
-        $user = Admin::where('email', $request->email)->first();
-
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'message' => 'Invalid credentials',
-                'status' => 401,
-                'data' => [],
-            ], 401);
+        if ($file = $request->file('image')) {
+            $name = time() . $file->getClientOriginalName();
+            $file->move('about', $name);
+        
         }
 
-        $user->api_token = \Str::random(60);
-        $user->save();
-
-        return response()->json([
-            'message' => 'User Login successfully',
-            'status' => 200,
-            'data' => $user,
-        ], 200);
+        $about = About::where('id', $id)->first();
+        if (!empty($name)) {
+            $about->image = $name;
+        }
+        $about->text = $request->text;
+        $about->save();
+         return response()->json([
+               'message' => 'About Us Updated successfully',
+                'status' => 200,
+                'data' => [],
+                
+         ], 200);
     }
 
     
+
+
   
 
 }

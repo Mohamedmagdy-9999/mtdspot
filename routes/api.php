@@ -59,6 +59,9 @@ Route::prefix('v-admin')->group(function () {
             
                 Route::get('setting','AdminApiController@setting');
                 Route::post('update_setting/{id}', 'AdminApiController@update_setting');
+
+                Route::get('about_us','AdminApiController@about_us');
+                Route::post('update_about_us/{id}', 'AdminApiController@update_about_us');
             
         });
 
