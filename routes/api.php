@@ -50,3 +50,15 @@ Route::get('terms', 'ApiController@terms');
 Route::get('notifications', 'ApiController@notifications');
 
 Route::post('delete_account/{id}', 'ApiController@delete_account');
+
+Route::prefix('v-admin')->group(function () {
+    
+   
+    Route::post('admin_login', 'AdminApiController@admin_login');
+        Route::middleware(['auth:api_admins', 'api_admins'])->group(function () {
+            
+                Route::get('setting','AdminApiController@setting');
+            
+        });
+
+});

@@ -65,6 +65,7 @@ class Kernel extends HttpKernel
         'admin' => \App\Http\Middleware\Admin::class,
         'locale' => \App\Http\Middleware\SetLocale::class,
         'supplier' => \App\Http\Middleware\Supplier::class,
+        'api_admins' => \App\Http\Middleware\EnsureAdmin::class,
         
     ];
 }
