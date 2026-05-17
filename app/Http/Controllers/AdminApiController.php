@@ -575,7 +575,7 @@ class AdminApiController extends Controller
                 $coupon->save();
 
                 $log = new Log();
-                $log->username = auth()->guard('admin')->user()->name;
+                $log->username = auth('api_admins')->user()->name;
                 $log->details = "تعديل كوبون" .' '. $coupon->code;
                 $log->save();
             }
