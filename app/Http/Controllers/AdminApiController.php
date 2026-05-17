@@ -235,6 +235,48 @@ class AdminApiController extends Controller
          ], 200);
     }
 
+    public function users()
+    {
+        $users = User::latest()->get();
+        return response()->json(['users' =>$users]);
+    }
+
+    public function suspend_user(Request $request,$id)
+    {
+        
+       
+       $user = User::findOrFail($id);
+       $user->update([
+        'status' =>1,
+       ]);
+        
+       
+        return response()->json([
+               'message' => 'User Suspend successfully',
+                'status' => 200,
+                'data' => [],
+                
+         ], 200);
+    }
+
+    public function unsuspend_user(Request $request,$id)
+    {
+        
+       
+       $user = User::findOrFail($id);
+       $user->update([
+        'status' =>0,
+       ]);
+        
+       
+        return response()->json([
+               'message' => 'User Unsuspend successfully',
+                'status' => 200,
+                'data' => [],
+                
+         ], 200);
+    }
+
     
 
 
