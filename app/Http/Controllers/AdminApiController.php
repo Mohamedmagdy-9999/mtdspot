@@ -367,6 +367,142 @@ class AdminApiController extends Controller
     }
     
 
+    public function products()
+    {
+        $products = Product::latest()->get();
+        return response()->json(['products' =>$products]);
+    }
+
+    public function single_product($id)
+    {
+        $product = Product::findOrFail($id);
+        return response()->json(['product' =>$product]);
+    }
+
+    public function add_product(Request $request)
+    {
+         $request->validate([
+             'name_ar' => 'required',
+             'name_en' => 'required',
+             'desc_ar' => 'required',
+             'desc_en' => 'required',
+             'code' => 'required',
+             'price' => 'required',
+             'supplier_price' => 'required',
+             'category_id' => 'required',
+             'supplier_id' => 'required',
+             'variants' => 'nullable|array',
+             'variants.*.color_id' => 'nullable|exists:colors,id',
+             'images' => 'required',
+         ]);
+     
+         
+            $product =  new Product();
+            $product->name_ar = $request->name_ar;
+            $product->name_en = $request->name_en;
+            $product->desc_ar = $request->desc_ar;
+            $product->desc_en = $request->desc_en;
+            $product->category_id = $request->category_id;
+            $product->supplier_id = $request->supplier_id;
+            $product->code = $request->code;
+            $product->supplier_price = $request->supplier_price;
+            $product->price = $request->price;
+            $product->discount = $request->discount;
+            $product->warranty_period = $request->warranty_period;
+            if($request->file('images'))
+            {
+                $images = '';
+                foreach ($request->file('images') as $image) {
+                    $name3 = $image->getClientOriginalName();
+                    $image->move('products', $name3);
+                    $images .= $name3 .',';
+                    $product->images = rtrim($images, ',');
+                }
+            }
+            $product->image_link_1 = $request->image_link_1;
+            $product->image_link_1 = $request->image_link_1;
+            $product->image_link_1 = $request->image_link_1;
+            $product->image_link_1 = $request->image_link_1;
+            $product->save();
+     
+           
+     
+                $log = new Log();
+                $log->username = auth('api_admins')->user()->name;
+                $log->details = "اضافة منتج" .' '. $product->name;
+                $log->save();
+        return response()->json([
+               'message' => 'Product Added successfully',
+                'status' => 200,
+                'data' => [],
+                
+         ], 200);
+         
+    }
+
+    public function update_product(Request $request, $id)
+    {
+        $product = Product::findOrFail($id);
+
+        $request->validate([
+            'name_ar' => 'required',
+            'name_en' => 'required',
+            'desc_ar' => 'required',
+            'desc_en' => 'required',
+            'code' => 'required',
+            'price' => 'required',
+            'supplier_price' => 'required',
+            'category_id' => 'required',
+            'supplier_id' => 'required',
+            
+            'images.*' => 'nullable|image',
+        ]);
+
+        $product->update([
+            'name_ar' => $request->name_ar,
+            'name_en' => $request->name_en,
+            'desc_ar' => $request->desc_ar,
+            'desc_en' => $request->desc_en,
+            'category_id' => $request->category_id,
+            'supplier_id' => $request->supplier_id,
+            'code' => $request->code,
+            'supplier_price' => $request->supplier_price,
+            'price' => $request->price,
+            'discount' => $request->discount,
+            'warranty_period' => $request->warranty_period,
+            'image_link_1' => $request->image_link_1,
+            'image_link_1' => $request->image_link_1,
+            'image_link_1' => $request->image_link_1,
+            'image_link_1' => $request->image_link_1,
+        ]);
+
+        // لو في صور جديدة
+        if ($request->hasFile('images')) {
+            $images = '';
+            foreach ($request->file('images') as $image) {
+                $name3 = $image->getClientOriginalName();
+                $image->move('products', $name3);
+                $images .= $name3 . ',';
+            }
+            $product->images = rtrim($images, ',');
+            
+        }
+        $product->save();
+
+ 
+        // سجل العمليات
+        $log = new Log();
+        $log->username = auth('api_admins')->user()->name;
+        $log->details = "تحديث منتج " . $product->name;
+        $log->save();
+
+        return response()->json([
+               'message' => 'Product Updated successfully',
+                'status' => 200,
+                'data' => [],
+                
+         ], 200);
+    }
 
   
 
