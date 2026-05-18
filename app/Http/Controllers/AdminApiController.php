@@ -33,6 +33,8 @@ use App\Models\Term;
 use App\Models\Notification;
 use App\Models\Admin;
 use App\Models\Log;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\ProductImport;
 class AdminApiController extends Controller
 {
    
@@ -502,6 +504,23 @@ class AdminApiController extends Controller
                 'data' => [],
                 
          ], 200);
+    }
+
+    public function import_product_excel(Request $request)
+    {
+        $path1 = $request->file('data')->store('temp');
+        $path=storage_path('app').'/'.$path1;
+
+
+            Excel::import(new ProductImport(),$path);
+
+           return response()->json([
+               'message' => 'excel Import successfully',
+                'status' => 200,
+                'data' => [],
+                
+         ], 200);
+
     }
 
     public function coupons()

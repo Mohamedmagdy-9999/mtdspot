@@ -85,6 +85,7 @@ Route::prefix('v-admin')->group(function () {
                 Route::post('add_product', 'AdminApiController@add_product');
                 Route::get('single_product/{id}','AdminApiController@single_product');
                 Route::post('update_product/{id}', 'AdminApiController@update_product');
+                Route::post('import_product_excel' , 'AdminApiController@import_product_excel');
 
                 Route::get('coupons','AdminApiController@coupons');
                 Route::post('add_coupon', 'AdminApiController@add_coupon');
