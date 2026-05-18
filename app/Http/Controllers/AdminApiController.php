@@ -611,7 +611,7 @@ class AdminApiController extends Controller
 
     public function single_order($id)
     {
-        $order = UserPurchase::with('details')findOrFail($id);
+        $order = UserPurchase::with('details')->findOrFail($id);
         return response()->json(['order' =>$order]);
     }
 
