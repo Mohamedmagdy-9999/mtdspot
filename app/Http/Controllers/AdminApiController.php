@@ -615,9 +615,7 @@ class AdminApiController extends Controller
             'user',
             'coupon',
             'details.product',
-            'address.governorate',
-            'address.city',
-            'address.address',
+            'address',
         ])->findOrFail($id);
 
         return response()->json([
