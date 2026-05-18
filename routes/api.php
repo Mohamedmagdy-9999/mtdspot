@@ -92,9 +92,9 @@ Route::prefix('v-admin')->group(function () {
                 Route::post('update_coupon/{id}', 'AdminApiController@update_coupon');
                 Route::post('delete_coupon/{id}', 'AdminApiController@delete_coupon');
 
-                Route::get('coupons','AdminApiController@coupons');
+                Route::get('orders','AdminApiController@orders');
                 Route::post('start_order/{id}', 'AdminApiController@start_order');
-                Route::get('single_coupon/{id}','AdminApiController@single_coupon');
+                Route::get('single_order/{id}','AdminApiController@single_order');
             
         });
 
