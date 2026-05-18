@@ -12,6 +12,7 @@ class UserPurchase extends Model
 
      protected $appends = ['delivery_date'];
      
+     
 
     public function user()
     {
