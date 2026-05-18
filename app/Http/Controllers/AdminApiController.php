@@ -603,4 +603,38 @@ class AdminApiController extends Controller
          ], 200);
     }
 
+    public function orders()
+    {
+        $orders = UserPurchase::latest()->paginate(10);
+        return response()->json(['orders' =>$orders]);
+    }
+
+    public function single_order($id)
+    {
+        $order = UserPurchase::findOrFail($id);
+        return response()->json(['order' =>$order]);
+    }
+
+    public function start_order(Request $request, $id)
+    {
+        $order = UserPurchase::findOrFail($id);
+
+        $order->update([
+            'order_status' => 'processing',
+        ]);
+
+        foreach ($order->details as $detail) {
+            $detail->update([
+                'transefer' => 'created'
+            ]);
+        }
+
+        return response()->json([
+               'message' => 'Start Order successfully',
+                'status' => 200,
+                'data' => [],
+                
+         ], 200);
+    }
+
 }

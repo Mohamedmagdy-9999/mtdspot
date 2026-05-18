@@ -91,6 +91,10 @@ Route::prefix('v-admin')->group(function () {
                 Route::get('single_coupon/{id}','AdminApiController@single_coupon');
                 Route::post('update_coupon/{id}', 'AdminApiController@update_coupon');
                 Route::post('delete_coupon/{id}', 'AdminApiController@delete_coupon');
+
+                Route::get('coupons','AdminApiController@coupons');
+                Route::post('start_order/{id}', 'AdminApiController@start_order');
+                Route::get('single_coupon/{id}','AdminApiController@single_coupon');
             
         });
 
