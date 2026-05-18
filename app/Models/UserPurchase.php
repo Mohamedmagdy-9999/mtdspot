@@ -11,7 +11,7 @@ class UserPurchase extends Model
      protected $guarded  = [];
 
      protected $appends = ['delivery_date'];
-     protected $hidden = ['address'];
+     
 
     public function user()
     {
